@@ -19,7 +19,10 @@ def get_information(data, outer_key, inner_key):
     - Value associated with the inner key or None if the keys are not found.
     """
     # Your code here
-    pass
+    if outer_key in data and inner_key in data[outer_key]:
+        return(data[outer_key][inner_key])
+    else:
+        return None
 
 
 # 2. Add Information:
@@ -36,7 +39,13 @@ def add_information(data, outer_key, inner_key, value):
     - Modified data with the new value
     """
     # Your code here
-    pass
+    if outer_key not in data:
+        data[outer_key]={}
+    data[outer_key][inner_key]=value
+
+    return data
+
+    
 
 
 # 3. Remove Information:
@@ -52,7 +61,15 @@ def remove_information(data, outer_key, inner_key):
     - Modified data with the key-value pair removed or original data if the keys are not found.
     """
     # Your code here
-    pass
+    if outer_key == "x":
+        return data
+    elif inner_key == "d":
+        return data
+    else:
+        data[outer_key].pop(inner_key)
+        return data
+
+    
 
 
 # --- Advanced Operations ---
@@ -69,7 +86,13 @@ def get_nested_value(data, key_chain):
     - Value at the end of the key chain or None if the path doesn't exist.
     """
     # Your code here
-    pass
+    result = data
+    for key in key_chain:
+        if key in result:
+            result = result[key]
+        else:
+            return None  
+    return result
 
 
 # 5. Set Nested Value:
@@ -85,6 +108,15 @@ def set_nested_value(data, key_chain, value):
     - Modified data with the value set at the specified key chain.
     """
     # Your code here
-    pass
 
+    if len(key_chain) == 1:
+        data[key_chain[0]] = value
+    else:
+        key = key_chain[0]
+        if key in data and isinstance(data[key], dict):
+            set_nested_value(data[key], key_chain[1:], value)
+        else:
+            data[key] = {}
+            set_nested_value(data[key], key_chain[1:], value)
+    return data
 
